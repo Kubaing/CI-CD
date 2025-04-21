@@ -6,9 +6,4 @@ services:
   frontend:
     build: .
 
-    services:
-  mongodb:
-    image: mongodb
-    ports:
-      - "27017:27017"
-
+    
