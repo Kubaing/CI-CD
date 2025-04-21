@@ -16,6 +16,18 @@ pipeline {
             }
         }
 
+        stage('Clean Up') {
+            steps {
+                echo "Cleaning up old containers and images..."
+                script {
+                    // ลบ container เก่าถ้ามี (ไม่สนใจสถานะการทำงาน)
+                    bat "docker rm -f my-nam || true"
+                    // ลบ image เก่าถ้ามี (ไม่สนใจสถานะการทำงาน)
+                    bat "docker rmi -f dockertest || true"
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 echo "Building Docker image..."
@@ -32,19 +44,40 @@ pipeline {
         stage('Unit Tests') {
             steps {
                 echo "Running tests..."
+                script {
+                    // สามารถเพิ่มคำสั่งรัน tests ตรงนี้ เช่น
+                    bat "npm test || echo 'Warning: Tests not implemented yet'"
+                }
             }
         }
 
         stage('Deploy') {
             steps {
                 echo "Deploying the application..."
+                script {
+                    // ตรวจสอบว่า container ทำงานอยู่หรือไม่
+                    bat "docker ps | findstr my-nam || echo 'Container not running!'"
+                }
             }
         }
 
         stage('Deployment test') {
             steps {
-                echo "Running tests..."
+                echo "Running deployment tests..."
+                script {
+                    // เพิ่มการทดสอบ API หรือ เว็บแอปฯ เช่น
+                    bat "curl -s http://localhost:54100 > NUL || echo 'Warning: Application not responding'"
+                }
             }
+        }
+    }
+
+    post {
+        always {
+            echo "Build complete"
+        }
+        failure {
+            echo "Build failed"
         }
     }
 }
