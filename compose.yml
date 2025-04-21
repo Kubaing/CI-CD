@@ -5,3 +5,10 @@ services:
       - "30100:3000"
   frontend:
     build: .
+
+    services:
+  mongodb:
+    image: mongodb
+    ports:
+      - "27017:27017"
+
