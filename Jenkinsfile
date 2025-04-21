@@ -32,11 +32,13 @@ pipeline {
             steps {
                 echo "Building Docker image..."
                 script {
-                    // สร้าง Docker image โดยใช้ Dockerfile ที่อยู่ใน repository
-                    bat "docker build -t dockertest ."
-                    
-                    // รัน Docker container จาก image ที่สร้าง
-                    bat "docker run -d --name my-nam -p 54100:3000 dockertest:latest"
+                    dir('Project Frontend') {
+                        // สร้าง Docker image โดยใช้ Dockerfile ที่อยู่ใน repository
+                        bat "docker build -t dockertest -f dockerfile ."
+                        
+                        // รัน Docker container จาก image ที่สร้าง
+                        bat "docker run -d --name my-nam -p 54100:3000 dockertest:latest"
+                    }
                 }
             }
         }
@@ -45,8 +47,10 @@ pipeline {
             steps {
                 echo "Running tests..."
                 script {
-                    // สามารถเพิ่มคำสั่งรัน tests ตรงนี้ เช่น
-                    bat "npm test || echo 'Warning: Tests not implemented yet'"
+                    dir('Project Frontend') {
+                        // ใช้ yarn แทน npm ตามที่กำหนดใน package.json
+                        bat "yarn test --watchAll=false || echo 'Warning: Tests not implemented yet'"
+                    }
                 }
             }
         }
