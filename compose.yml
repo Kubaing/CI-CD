@@ -1,0 +1,7 @@
+services:
+  backend:
+    image: "projectbackend"
+    ports:
+      - "30100:3000"
+  frontend:
+    build: .
