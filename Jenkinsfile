@@ -16,17 +16,6 @@ pipeline {
             }
         }
 
-        stage('Clean Up') {
-            steps {
-                echo "Cleaning up old containers and images..."
-                script {
-                    // ลบ container เก่าถ้ามี (ไม่สนใจสถานะการทำงาน)
-                    bat "docker rm -f my-nam || true"
-                    // ลบ image เก่าถ้ามี (ไม่สนใจสถานะการทำงาน)
-                    bat "docker rmi -f dockertest || true"
-                }
-            }
-        }
 
         stage('Build Docker Image') {
             steps {
@@ -60,7 +49,7 @@ pipeline {
                 echo "Deploying the application..."
                 script {
                     // ตรวจสอบว่า container ทำงานอยู่หรือไม่
-                    bat "docker ps | findstr my-nam || echo 'Container not running!'"
+                    bat "docker ps | findstr projectfrontend-frontend|| echo 'Container not running!'"
                 }
             }
         }
