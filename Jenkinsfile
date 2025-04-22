@@ -20,16 +20,12 @@ pipeline {
             steps {
                 echo "Building Docker image..."
                 script {
-                    // สร้าง Docker image โดยใช้ Dockerfile ที่อยู่ใน repository
-                    bat "docker build -t dockertest ."
-                    
-                    // รัน Docker container จาก image ที่สร้าง
-                    bat "docker run -d --name projectfrontend -p 54100:3000 dockertest:latest"
+                    bat "docker build -t frontend-image ."
+                    bat "docker run -d --name projectfrontend -p 54100:3000 frontend-image"
                 }
             }
         }
 
-        stages {
         stage('Checkout Backend') {
             steps {
                 echo "Clone Code the project From Git"
@@ -48,11 +44,8 @@ pipeline {
             steps {
                 echo "Building Docker image..."
                 script {
-                    // สร้าง Docker image โดยใช้ Dockerfile ที่อยู่ใน repository
-                    bat "docker build -t dockertest ."
-                    
-                    // รัน Docker container จาก image ที่สร้าง
-                    bat "docker run -d --name projectbackend -p 54200:3000 dockertest:latest"
+                    bat "docker build -t backend-image ."
+                    bat "docker run -d --name projectbackend -p 54200:3000 backend-image"
                 }
             }
         }
@@ -60,18 +53,21 @@ pipeline {
         stage('Unit Tests') {
             steps {
                 echo "Running tests..."
+                // เพิ่มคำสั่งรัน Unit Test ถ้ามี
             }
         }
 
         stage('Deploy') {
             steps {
                 echo "Deploying the application..."
+                // เพิ่มคำสั่ง deploy ได้เลย
             }
         }
 
         stage('Deployment test') {
             steps {
                 echo "Running tests..."
+                // เพิ่มคำสั่งสำหรับ test การ deploy ได้เลย
             }
         }
     }
