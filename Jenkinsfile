@@ -37,7 +37,7 @@ pipeline {
                         bat "docker build -t dockertest -f dockerfile ."
                         
                         // รัน Docker container จาก image ที่สร้าง
-                        bat "docker run -d --name projectfrontend-frontend -p 30100:3000 dockertest:latest"
+                        bat "docker run -d --name projectfrontend-frontend -p 54100:3000 dockertest:latest"
                     }
                 }
             }
