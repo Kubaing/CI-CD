@@ -16,12 +16,12 @@ pipeline {
             }
         }
 
-        stage('Build Frontend Image') {
+        stage('Build Frontend') {
             steps {
                 echo "Building Docker image..."
                 script {
-                    bat "docker build -t dockertest ."
-                    bat "docker run -d --name projectfrontend -p 54100:3000 frontend-image"
+                    bat "docker build -t frontend ."
+                    bat "docker run -d --name projectfrontend -p 54100:3000 frontend"
                 }
             }
         }
@@ -40,12 +40,12 @@ pipeline {
             }
         }
 
-        stage('Build Backend Image') {
+        stage('Build Backend') {
             steps {
                 echo "Building Docker image..."
                 script {
-                    bat "docker build -t dockertest ."
-                    bat "docker run -d --name projectbackend -p 54200:9000 backend-image"
+                    bat "docker build -t backend ."
+                    bat "docker run -d --name projectbackend -p 54200:9000 backend"
                 }
             }
         }
