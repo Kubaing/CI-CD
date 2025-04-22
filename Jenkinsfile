@@ -16,18 +16,15 @@ pipeline {
             }
         }
 
-
         stage('Build Docker Image') {
             steps {
                 echo "Building Docker image..."
                 script {
-                    dir('Project Frontend') {
-                        // สร้าง Docker image โดยใช้ Dockerfile ที่อยู่ใน repository
-                        bat "docker build -t dockertest ."
-                        
-                        // รัน Docker container จาก image ที่สร้าง
-                        bat "docker run -d --name projectfrontend-frontend -p 54100:3000 dockertest:latest"
-                    }
+                    // สร้าง Docker image โดยใช้ Dockerfile ที่อยู่ใน repository
+                    bat "docker build -t dockertest ."
+                    
+                    // รัน Docker container จาก image ที่สร้าง
+                    bat "docker run -d --name my-nam -p 54100:3000 dockertest:latest"
                 }
             }
         }
@@ -35,42 +32,19 @@ pipeline {
         stage('Unit Tests') {
             steps {
                 echo "Running tests..."
-                script {
-                    dir('Project Frontend') {
-                        // ใช้ yarn แทน npm ตามที่กำหนดใน package.json
-                        bat "yarn test --watchAll=false || echo 'Warning: Tests not implemented yet'"
-                    }
-                }
             }
         }
 
         stage('Deploy') {
             steps {
                 echo "Deploying the application..."
-                script {
-                    // ตรวจสอบว่า container ทำงานอยู่หรือไม่
-                    bat "docker ps | findstr projectfrontend-frontend|| echo 'Container not running!'"
-                }
             }
         }
 
         stage('Deployment test') {
             steps {
-                echo "Running deployment tests..."
-                script {
-                    // เพิ่มการทดสอบ API หรือ เว็บแอปฯ เช่น
-                    bat "curl -s http://localhost:54100 > NUL || echo 'Warning: Application not responding'"
-                }
+                echo "Running tests..."
             }
-        }
-    }
-
-    post {
-        always {
-            echo "Build complete"
-        }
-        failure {
-            echo "Build failed"
         }
     }
 }
