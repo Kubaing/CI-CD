@@ -26,7 +26,7 @@ pipeline {
             }
         }
 
-        stage('Checkout Backend') {
+          stage('Checkout Backend') {
             steps {
                 echo "Clone Code the project From Git"
                 checkout([
@@ -45,7 +45,7 @@ pipeline {
                 echo "Building Docker image..."
                 script {
                     bat "docker build -t dockertest ."
-                    bat "docker run -d --name projectbackend -p 54200:3000 backend-image"
+                    bat "docker run -d --name projectbackend -p 54200:9000 backend-image"
                 }
             }
         }
