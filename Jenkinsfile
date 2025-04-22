@@ -23,7 +23,7 @@ pipeline {
                 script {
                     dir('Project Frontend') {
                         // สร้าง Docker image โดยใช้ Dockerfile ที่อยู่ใน repository
-                        bat "docker build -t dockertest -f dockerfile ."
+                        bat "docker build -t dockertest ."
                         
                         // รัน Docker container จาก image ที่สร้าง
                         bat "docker run -d --name projectfrontend-frontend -p 54100:3000 dockertest:latest"
